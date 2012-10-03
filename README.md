@@ -1,7 +1,13 @@
-## EmailBox  
+## emailBox  
 
-Register at https://getemailbox.com/login  
+    mv js/app/creds.js.rename js/app/creds.js
+    
+Add credentials to `js/app/creds.js`  
 
-Documentation at https://docs.getemailbox.com/  
+### User Interface  
 
+[index.html]()
 
+### API Console  
+
+[console.html]()

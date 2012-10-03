@@ -15,3 +15,8 @@ Also need to add the api url to the socket.io js so it looks like:
 ### API Console  
 
 [console.html]()
+
+
+### Trigger.io Native Mobile App
+
+Drop this inside the `src` directory of a [trigger.io](trigger.io) app. Turn on remote debugging by turning on `forge.debug=true;` at the top of `js/app/app.js`. The native app will eventually use Push Notifications, Intents, and other goodies introduced by the trigger folks

@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+	<title>
+		API Console
+	</title>
+	
+	<link rel="stylesheet/less" type="text/css" href="css/less/bootstrap.less">
+	<!--<link href="css/bootstrap.css" type="text/css" rel="stylesheet">-->
+	<link rel="stylesheet" type="text/css" href="css/extra.css">
+
+	<script src="js/libs/underscore-1.3.3.min.js"></script>
+
+	<script src="js/app/creds.js"></script>
+
+	<script src="js/libs/underscore-1.3.3.min.js"></script>
+	<script src="js/libs/less-1.3.0.min.js"></script>
+	<script src="js/libs/jquery-1.7.2.min.js"></script>
+	<script src="js/libs/ace/ace.js"></script>
+	<script src="js/libs/bootstrap-tooltip.2.0.3.js"></script>
+	<script src="js/libs/ace/mode-javascript.js"></script>
+	<script src="js/libs/ace/mode-json.js"></script>
+	<script src="js/libs/beautify.js"></script>
+	<script src="js/libs/json-formatter.js"></script>
+
+</head>
+<body class="console">
+
+	<script type="text/javascript">
+		// Start backbone
+
+		var editor_js;
+		var editor_json;
+		var editor_result;
+		var ticks = {};
+		var cticks = {};
+
+		console.log('Tmp credentials, loading');
+		console.log(tmp_credentials);
+		var api_url = tmp_credentials.base_api_url + '/';
+
+
+		function tick(name){
+			// Register a tick
+
+			var d = new Date();
+			var now = d.getMilliseconds();
+
+			if(ticks[name] != undefined){
+
+				var elapsed = now - ticks[name][0];
+				
+				delete ticks[name];
+
+				// Return the result of the time
+				return elapsed;
+
+			} else {
+
+				// doesn't exist, create the starter
+				ticks[name] = [];
+				ticks[name].push(now);
+				
+			}
+
+		}
+
+		$(document).ready(function(){
+			//App.init();
+
+			// Javascript
+			/*
+			editor_js = ace.edit("editor_js");
+
+			var JavaScriptMode = require("ace/mode/javascript").Mode;
+			editor_js.getSession().setMode(new JavaScriptMode());
+			*/
+
+
+			// Activate Switcher (tabs)
+			for(var i = 1; i <= 10; i++){
+				// Get name
+				var name = i;
+				var saved_name = localStorage.getItem('saved_post_name_'+i);
+				if(saved_name != null && saved_name.length > 0){
+					name = saved_name;
+				}
+
+				$('#switcher').append('<li><a href="#" data-id="'+i+'">'+name+'</a></li>');
+			}
+
+			// Number clicked
+			$('#switcher a').click(function(){
+				
+				// position_index
+				var id = $(this).attr('data-id');
+
+				// Get values from localStorage
+				// - add to page
+
+				// POST Editor
+				var saved_post_json = localStorage.getItem('saved_post_json_' + id);
+				if(saved_post_json != null && saved_post_json != false){
+					
+					editor_json.getSession().setValue(saved_post_json);
+					
+				} else {
+					// No data saved for this one, yet
+					// - clear out the entry form
+					editor_json.getSession().setValue("");
+				}
+
+				// Results Editor
+				var saved_post_result = localStorage.getItem('saved_post_result_' + id);
+				if(saved_post_result != null && saved_post_result != false){
+					
+					editor_result.getSession().setValue(saved_post_result);
+					
+				} else {
+					// No data saved for this one, yet
+					// - clear out the entry form
+					editor_result.getSession().setValue("");
+				}
+
+
+				// Add saved URL
+				var saved_url = localStorage.getItem('saved_url_' + id);
+				if(saved_url != null && saved_url != false){
+					$('.url').val(saved_url);
+				} else {
+					// Set to ecko
+					$('.url').val('api/echo');
+				}
+
+				// Add colors
+				$('#switcher li').removeClass('active');
+				$(this).parent('li').addClass('active');
+
+				// Set position_index for localStorage
+				localStorage.setItem('position_index',id);
+
+				return false;
+
+			});
+
+			$('#switcher a').dblclick(function(){
+
+				// Prompt for new tab name
+				var name = prompt('Enter Tab Name',$(this).text());
+
+				// Add to html
+				$(this).text(name);
+
+				// Get position_index
+				var id = $(this).attr('data-id');
+
+				// Set in localStorage
+				localStorage.setItem('saved_post_name_'+id,name);
+
+				return false;
+
+			});
+
+
+			// Build Editors
+
+			// JSON
+			editor_json = ace.edit("editor_json");
+			var JsonMode = require("ace/mode/json").Mode;
+			editor_json.getSession().setMode(new JsonMode());
+			//editor_json.getSession().setFoldStyle('markbegin'); // can't get folding to work
+			editor_json.setBehavioursEnabled(false); // turn off auto-complete brackets (annoying)
+			
+			// Result JSON
+			editor_result = ace.edit("editor_result");
+			var JsonMode2 = require("ace/mode/json").Mode;
+			editor_result.getSession().setMode(new JsonMode());
+			//editor_result.getSession().setFoldStyle('markbegin'); // can't get folding to work
+			editor_result.setBehavioursEnabled(false); // turn off auto-complete brackets (annoying)
+
+
+			// Get position, use #1 if position not saved in localStorage
+			// - set by default
+			var position_index = localStorage.getItem('position_index');
+			if(position_index != null && position_index > 0){
+				// Good
+			} else {
+				position_index = 1;
+			}
+
+			// Click the right button and it does the rest
+			$('#switcher a[data-id="'+position_index+'"]').click();
+
+
+			//editor_json.getSession().setValue(saved_post_json);
+
+
+
+			// Getting actual code
+			//editor_json.getSession().getValue();
+
+			$('.beautify').click(function(){
+				editor_json.getSession().setValue(js_beautify(editor_json.getSession().getValue()));
+				return false;
+			});
+
+			$('.swap').toggle(function(){
+				$('#editor_result').addClass('nodisplay');
+				$('#json_result').removeClass('nodisplay');
+				return false;
+			},function(){
+				$('#editor_result').removeClass('nodisplay');
+				$('#json_result').addClass('nodisplay');
+				return false;
+			});
+
+			$('.btn').click(function(){
+
+				tick('post');
+
+				$(this).parent().find('.label').remove();
+
+				// Get URL
+				var url = $('.url').val();
+
+				// Get actual value
+				var data = editor_json.getSession().getValue();
+
+				// Validate that this is JSON
+				
+				//if(url != 'api/js'){
+					try {
+						var data_json = $.parseJSON(data);
+					} catch(err){
+						$('.btn').after(' <span class="label label-important">Cannot parse your JSON</span>');
+						return false;
+					}
+				//}
+
+				// Add authentication to JSON
+				var data = {
+					auth: {
+							app: 'e765c817-d066-4e5a-a337-2a0b88a9a706', // hardcoded to Nick's relationship with App/Plugin.UI.key
+							user_token: 'e9b12882-4576-4f5d-8880-2965b1f7be22'
+						},
+					data: data_json
+				};
+
+
+				// Stringify before sending
+				data = JSON.stringify(data);
+
+
+				$('#json_result').html('');
+
+				$.ajax({
+					url: api_url + url,
+					cache: false,
+					type: 'post',
+					data: data,
+					dataType: 'html',
+					headers: {"Content-Type" : "application/json"},
+					error: function(err){
+						//alert('Error with return data (page failed to display. 404 or 500 is likely)');
+						console.log(err);
+					},
+					success: function(html){
+
+						try {
+							var json = $.parseJSON(html);
+						} catch(err){
+							alert('Failed parsing JSON');
+							$('#json_result').html(html);
+							$('#json_result').prepend('FAILED PARSING, NO VALID JSON RETURNED<br /><br />');
+							return;
+						}
+
+
+						if(json == null){
+							json = { result: null}
+						}
+
+						// Elapsed versus received "time"
+						// - showing latency
+						var elapsed = tick('post') / 1000;
+						var diff = '';
+						var diff_perc = '';
+						if(json.time != undefined){
+							diff = elapsed - json.time;
+							diff_perc = (diff / elapsed) * 100;
+						}
+						$('#elapsed').text(elapsed + ' ' + diff + ' ' + diff_perc);
+
+
+						// Insert the JSON
+
+						// Logging to console
+						console.log('Returned JSON Object:');
+						console.log(json);
+
+						var beautify_json = js_beautify(JSON.stringify(json));
+
+						// Get position_index for current Tab
+						var position_index = localStorage.getItem('position_index');
+						if(position_index != null && position_index > 0){
+
+						} else {
+							position_index = 1;
+						}
+
+						// Save to localStorage
+						localStorage.setItem('saved_post_result_' + position_index,beautify_json);
+						localStorage.setItem('saved_post_json_' + position_index,data);
+						localStorage.setItem('saved_url_' + position_index,url);
+
+						// Insert into right-side editor
+						editor_result.getSession().setValue(beautify_json);
+
+						// Also update the other thing
+
+						JSONFormatter.format(json, {'appendTo' : '#json_result',
+													'collapse' : true});
+
+						// Getting path to highlighted element
+						$('.key').each(function(i,that){
+							var paths = [];
+							$($(that).parents('ul:not(#json)').get().reverse()).each(function(i,elem){
+								paths.push($(elem).parent().find('> span.key').text());
+							});
+								
+							var path;
+
+							if(paths.length == 0){
+								path = $(that).text();
+							} else {
+								path = paths.join('.');
+								path += '.' + $(that).text();
+							}
+
+							$(that).attr('title',path);
+
+						});
+
+						$('.key').after('<span class="colon">:</span>');
+
+						$('.key').tooltip();
+
+
+					}
+				});
+
+				return false;
+
+			});
+			
+			// Resize the box on window resize
+			$(window).resize(function() {
+				resizeEditors();
+			});
+			
+
+			// Save the Editor values constantly (every 500 milliseconds)
+			window.setInterval(function(){
+
+				// This checks localStorage waaaay too often
+				// - not sure about the consequences for that
+
+				// Get position_index
+				var position_index = localStorage.getItem('position_index');
+				if(position_index == null || position_index <= 0){
+					position_index = 1;
+				}
+
+				// Match the previous with the currently displayed
+				var saved_post_json = localStorage.getItem('saved_post_json_' + position_index);
+				if(saved_post_json == null || saved_post_json == false){
+					// It is empty
+					saved_post_json = "";
+				}
+
+				// Current value
+				var current_value = editor_json.getSession().getValue();
+
+
+				// Match?
+				if(current_value != saved_post_json){
+					// Save the new one
+					localStorage.setItem('saved_post_json_' + position_index,current_value);
+				}
+
+
+			},500);
+
+			resizeEditors();
+
+		});
+
+		function resizeEditors(){
+
+			var win_h = $(window).height();
+
+			var from_top = $('#editor_json').offset().top;
+
+			var new_h = win_h - from_top;
+
+			$('#editor_json').height(new_h + 'px')
+			$('#editor_result').height(new_h + 'px')
+
+			editor_json.resize();
+			editor_result.resize();
+
+		}
+
+	</script>
+
+
+
+	<h2>
+		API Console 
+		<small>
+			[<a href="index.html" target="_blank">home</a>]
+			[<a href="https://gist.github.com/6074f1d65a47b00dfd64" target="_blank">sample queries</a>]
+			[<a href="https://rocky-oasis-6327.herokuapp.com/api/clear" target="_blank">clear database</a>]
+		</small>
+	</h2>
+
+
+	<div class="row-fluid">
+		<div class="span3">
+			<form class="well form-inline">
+				<select class="input url">
+					<option value="api/echo">api/echo</option>
+					<option value="api/search">api/search</option>
+					<option value="api/update">api/update</option>
+					<option value="api/write">api/write</option>
+					<option value="api/event">api/event</option>
+					<option value="api/queue">api/queue</option>
+					<option value="api/queue/delete">api/queue/delete</option>
+					<!--
+					<option value="api/plugin">api/plugin</option>
+					<option value="api/models">api/models</option>
+					<option value="api/js">api/js</option>
+					-->
+				</select>
+
+				<button type="submit" class="btn btn-success">POST</button>
+			</form>
+		</div>
+		<div class="span9">
+			<ul id="switcher" class="nav nav-tabs">
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="clearfix">
+		<div style="float:left;width:49%;">
+			<h3>POST <small>in JSON format [<a href="#" class="beautify">beautify</a>] </small></h3>
+			<div id="editor_json"></div>
+		</div>
+
+		<div style="float:left;width:49%;">
+			<h3>Response <small>as application/json [<a href="#" class="swap">swap view</a>] <span id="elapsed"></span></small></h3>
+			<div id="editor_result"></div>
+			<div id="json_result" class="nodisplay"></div>
+		</div>
+	</div>
+
+
+
+
+
+	<style type="text/css">
+		
+
+		#editor_js {
+			position: relative;
+			width: 95%;
+			height: 400px;
+
+		}
+
+		#editor_json {
+			position: relative;
+			width: 95%;
+			height: 200px;
+
+		}
+
+		#editor_result {
+			position: relative;
+			width: 95%;
+			height: 200px;
+
+		}
+
+		#json_result ul {
+			list-style-type: none;
+		}
+
+		#json_result li {
+			list-style-type: none;
+		}
+
+		#json_result ul li {
+			color: #077;
+		}
+
+		#json_result .toggle {
+			cursor: pointer;
+		}
+
+		#json_result .key {
+			color: #C00;
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		#json_result .colon {
+			color: #C00;
+			padding-left: 5px;
+		}
+
+		#json_result .brace {
+			color: #0A0;
+			font-weight: bold;
+		}
+
+		#json_result .brace:not(:last-child) {
+			padding-left: 5px;
+		}
+
+		#json_result .null {
+			color: #9370DB;
+		}
+
+	</style>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,1220 @@
+
+html, *,
+textarea:focus, input:focus,
+a, a:hover, a:active, a:focus {
+  -webkit-tap-highlight: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+  outline: 0;
+}
+input::-moz-focus-inner { 
+  border: 0; 
+}
+
+body {
+  /*width: 1425px;*/
+  padding: 0px;
+  background: url(../img/whitey.png) repeat;
+}
+
+body.console {
+  background: white;
+}
+
+.container {
+  padding: 0px;
+  width: 100% !important;
+}
+
+/* container */
+.container-fluid {
+  padding: 0px;
+}
+
+/* Main Window(s) */
+.window-holder .main-window {
+  margin-left: 0px;
+}
+
+
+/* Start of 2 Column CSS */
+.eq_col_outer {
+  clear:left;
+  float:left;
+  width:100%;
+  overflow:hidden;
+  background: black;
+}
+.eq_col_inner {
+  float:left;
+  width:100%;
+  position:relative;
+  right:50%;
+  background: blue;
+}
+.eq_col_inner > div:first-child {
+  float:left;
+  width:46%;
+  position:relative;
+  left:52%;
+  overflow:hidden;
+}
+.eq_col_inner > div:last-child {
+  float:left;
+  width:46%;
+  position:relative;
+  left:56%;
+  overflow:hidden;
+}
+
+
+
+
+/* Search displays */
+
+/* Thread Display */
+
+table.threads-all {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.threads-all .thread-preview.selected {
+  background: #eee;
+}
+
+.thread-preview-header {
+  font-weight: bold;
+}
+
+.thread-preview-header .select_starred_header {
+  width: 44px;
+}
+
+.thread-preview {
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.thread-preview:first-child {
+  border-top: 1px solid #EBEBEB;
+}
+
+.thread-preview {
+  background: #fff;
+}
+
+.thread-preview > div > .visuals {
+  float: left;
+  width: 20px;
+}
+
+.thread-preview > div > .details {
+  float: left;
+  width: 300px;
+}
+
+
+.thread-preview[data-thread-read="1"] {
+  /*background: #efefef;*/
+}
+
+.thread-preview .visuals .unread {
+  width: 10px;
+  height: 10px;
+
+  margin-top: 38px;
+  margin-left: 8px;
+
+  border-radius: 5px;
+  
+  background: #7db9e8; /* Old browsers */
+  background: -moz-linear-gradient(top,  #7db9e8 0%, #1e5799 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7db9e8), color-stop(100%,#1e5799)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #7db9e8 0%,#1e5799 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #7db9e8 0%,#1e5799 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #7db9e8 0%,#1e5799 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #7db9e8 0%,#1e5799 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#1e5799',GradientType=0 ); /* IE6-9 */
+
+}
+.thread-preview[data-thread-read="1"] .visuals .unread {
+  visibility: hidden;
+}
+
+.thread-preview > td {
+  padding: 5px 0;
+  vertical-align: center;
+}
+
+.thread-preview > td > div.thread-item-holder {
+  overflow: hidden;
+  width: inherit;
+  word-wrap: nowrap;
+}
+
+.thread-preview .select {
+  width: 20px;
+  text-align: center;
+}
+
+.thread-preview .select .chkbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+.thread-preview .select .chkbox:hover {
+  border-color: #333;
+}
+
+.thread-preview .select.selected .chkbox {
+  border-color: #333;
+  background: #ccc;
+}
+
+.thread-preview .select .chkbox i {
+  visibility: hidden;
+}
+
+.thread-preview .select.selected .chkbox i {
+  visibility: visible;
+}
+
+.thread-preview .starred {
+  text-align: center;
+  width: 30px;
+
+  cursor: pointer;
+}
+
+.starred i {
+  opacity: 0.1;
+}
+
+.starred[data-starred="1"] i {
+  opacity: 1;
+}
+
+.thread-preview .contacts {
+  width: 150px;
+
+  overflow: hidden;
+  word-wrap: break-word; 
+  /*text-overflow: ellipsis;*/
+  white-space: nowrap;
+
+}
+
+.thread-preview .content {
+  padding-left: 5px;
+  
+  overflow: hidden;
+  /*text-overflow: ellipsis;*/
+  white-space: nowrap;
+
+  color: #333;
+
+}
+
+.thread-preview .content .subject {
+  font-weight: bolder;
+}
+
+.thread-preview .received {
+  width: 75px;
+  text-align: right;
+}
+
+/* Viewing a thread */
+
+.thread-view {
+
+}
+
+.thread-view .actions {
+  padding: 10px;
+}
+
+.thread-view .subject {
+  padding: 10px;
+  margin: 10px 20px 4px 10px;
+
+  background: white;
+  border: 1px solid #ccc;
+
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+
+  -webkit-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 1px -13px rgba(0, 0, 0, 0.3)
+}
+
+.thread-view .subject .subject_text {
+  float: left;
+  width: 475px;
+}
+
+.thread-view .subject .subject_explore {
+  float: left;
+  width: 25px;
+  opacity: 0.4;
+  text-align: right;
+}
+
+.thread-view .subject .rescroll {
+  float: right;
+  margin-right: 10px;
+  font-size: 11px;
+  font-weight: 100;
+
+  cursor: pointer;
+}
+
+.thread-view .emails {
+  /* all the emails contained in here */
+
+}
+
+.thread-view .email {
+  margin: 20px;
+  margin-top: 0px;
+  background: white;
+
+  border: 1px solid #CCC;
+
+  -webkit-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+
+}
+
+.thread-view .email.email_reply {
+  /*
+  box-shadow:inset 5px 0px #999;
+  -webkit-box-shadow:inset 5px 0px #999;
+  -moz-box-shadow:inset 5px 0px #999;
+  */
+}
+
+.thread-view .email:last-child {
+  border-bottom: 1px solid #ccc;
+}
+
+.thread-view .email .details {
+  padding: 10px;
+}
+
+.thread-view .email .content {
+  font-family: arial, sans-serif;
+  font-size: 13px;
+  line-height: normal;
+}
+
+.thread-view .email .content .ParsedDataContent {
+  word-wrap: break-word;
+}
+
+/*.thread-view .email .content:not(.showAllParsedData) .ParsedDataContent:not([data-level="0"]) {*/
+.thread-view .email .content .ParsedDataContent:not([data-level="0"]) {
+  display: none;
+}
+
+.thread-view .email .content .ParsedDataShowAll span {
+  border: 1px dotted #EAEAEA;
+  padding: 3px;
+  margin-top: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.thread-view .email .shrink {
+  float: left;
+  width: 10px;
+  height: 10px;
+
+  margin-right: 10px;
+  margin-top: 10px;
+
+  border: 1px solid #336699;
+  background: #EAEAEA;
+
+  cursor: pointer;
+}
+
+.thread-view .email .addresses {
+  float: left;
+  width: 300px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.thread-view .email .addresses .contact.from {
+  font-weight: bold;
+}
+
+.thread-view .email .received {
+  float: right;
+  width: 140px;
+  text-align: right;
+
+  color: #049cdb;
+
+  font-size: 12px;
+
+}
+
+.thread-view .email .options {
+  float: right;
+  width: 50px;
+  text-align: right;
+
+  opacity: .4;
+
+}
+
+.thread-view .email .info_holder {
+  padding: 10px;
+  background: #eee;
+  margin: 10px;
+  margin-top: 0px;
+}
+
+.thread-view .email .info_holder .header {
+  font-size: 10px;
+
+}
+
+.thread-view .email .info_holder .header .term {
+  color: #A52A2A;
+}
+
+.thread-view .email .info_holder .header .def {
+  color: #4F4F4F;
+}
+
+.thread-view .email .content {
+  padding: 10px;
+}
+
+.thread-view .email[data-open-state="closed"] .content {
+  display: none;
+}
+
+.thread-view .email .content .body {
+  
+}
+
+
+/* Mobile-only */
+
+.thread-view .header_bar {
+  margin: 4px;
+
+  background: white;
+  border: 1px solid #ccc;
+
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+
+  -webkit-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 1px -13px rgba(0, 0, 0, 0.3)
+}
+
+.thread-view .header_bar .alt_subject {
+  float: left;
+
+  width: 220px;
+  width: 98%;
+
+  padding: 10px;
+}
+
+.thread-view .header_bar .menu {
+  float: left;
+  width: 40px;
+
+  padding: 10px;
+
+  text-align: center;
+
+}
+
+.thread-view .header_bar .menu button {
+  padding: 5px 10px;
+}
+
+
+/* Media queries for thread view */
+
+@media (max-width: 480px) {
+
+
+  .thread-view .subject {
+    padding: 10px;
+    margin: 5px 5px 4px 5px;
+
+  }
+
+  .thread-view .email {
+
+    margin: 5px;
+    margin-top: 0px;
+    background: white;
+
+    border: 1px solid #CCC;
+
+    -webkit-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  }
+
+  .thread-view .threadTabs {
+    margin: 4px;
+  }
+
+  .thread-view .threadTabs a {
+    padding: 10px;
+    margin-right: 10px;
+  }
+
+}
+
+
+/* Common improvements to standard elements on mobile */
+
+@media (max-width: 480px) {
+
+  .label {
+    padding: 4px;
+    border-radius: 1px;
+
+    font-size: 16px;
+    line-height: 16px;
+
+  }
+
+}
+
+
+
+/* Compose Large */
+
+.compose-large .headline {
+  padding: 10px;
+  margin: 10px 20px 4px 10px;
+
+  background: white;
+  border: 1px solid #ccc;
+
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+
+  -webkit-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 1px -13px rgba(0, 0, 0, 0.3)
+}
+
+.compose-large .composition {
+  padding: 10px;
+
+  margin: 20px;
+  margin-top:0px;
+
+  background: white;
+  border: 1px solid #ccc;
+
+  -webkit-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 1px -13px rgba(0, 0, 0, 0.3)
+}
+
+.compose-large #EmailCompose .control-group label {
+  width: 50px;
+}
+
+.compose-large #EmailCompose .control-group .controls {
+  margin-left: 60px;
+}
+
+.compose-large #EmailCompose .control-group .controls input,
+.compose-large #EmailCompose .control-group .controls textarea {
+  width: 95%;
+}
+
+
+/* Thread Overview */
+
+.thread-overview div.sections section {
+  background: white;
+  border: 1px solid #CCC;
+  margin-bottom: 20px;
+
+  -webkit-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+}
+
+.thread-overview div.sections section:first-child {
+  margin-top: 10px;
+}
+
+.thread-overview div.sections .labels {
+  padding: 10px;
+}
+
+.thread-overview div.sections .labels .existing span.label-info {
+  margin-right: 10px;
+}
+
+.thread-overview div.sections .labels span.remove-label {
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.thread-overview div.sections .labels span.add-label {
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.thread-overview div.sections .labels input#AddLabels {
+  width: 248px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.thread-overview div.sections .labels button {
+  padding: 6px 12px;
+  margin-top: 10px;
+}
+
+.thread-overview div.sections .labels .existing span.label {
+  float: left;
+  margin: 2px 5px 0px 0px;
+
+  font-size: 14px;
+  line-height: 16px;
+
+}
+
+/* media-specific for adding labels */
+@media (max-width: 480px) {
+
+  .thread-overview div.sections .labels input#AddLabels {
+    margin-top: 20px;
+    width: 232px;
+
+    padding: 8px 4px;
+  }
+
+  .thread-overview div.sections .labels button {
+    margin-top: 20px;
+    padding: 10px 20px;
+  }
+
+}
+
+
+.thread-overview div.sections .reminder {
+  padding: 10px;
+
+}
+
+.thread-overview div.sections .reminder input {
+
+}
+
+
+.thread-overview div.sections .notes {
+  position: relative;
+}
+
+.thread-overview div.sections .notes textarea {
+  width: 96%;
+  overflow: hidden;
+
+  border: 0px;
+  outline: none;
+
+  margin: 0px;
+
+  padding: 8px;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+
+}
+
+.thread-overview div.sections .notes.saving:after {
+  content: "saving";
+  color: #999;
+  font-size: 9px;
+  font-style: italic;
+  line-height: 11px;
+
+  position: absolute;
+  right: -2px;
+  bottom:-12px;
+  background:white;
+  border: 1px solid #CCC;
+  border-top: 0px;
+
+  -webkit-box-shadow: 0px 5px 2px -2px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 2px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 5px 2px -2px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+/* Contacts */
+
+.contacts-structure {
+
+}
+
+.contacts > div {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.contacts .select {
+  width: 20px;
+  text-align: center;
+}
+
+.contacts .select .chkbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+.contacts .select .chkbox:hover {
+  border-color: #333;
+}
+
+.contacts .select.selected .chkbox {
+  border-color: #333;
+  background: #ccc;
+}
+
+.contacts .name {
+  width: 150px;
+
+  overflow: hidden;
+  word-wrap: break-word; 
+  /*text-overflow: ellipsis;*/
+  white-space: nowrap;
+}
+
+.contacts .objects {
+  width: 330px;
+
+  padding-left: 5px;
+  
+  overflow: hidden;
+  word-wrap: break-word; 
+  /*text-overflow: ellipsis;*/
+  white-space: nowrap;
+
+  color: #333;
+}
+
+
+
+/* Toolbar */
+
+#searchInput {
+  margin-bottom: 0px;
+  margin-top: -20px;
+}
+
+#main-toolbar {
+  margin: 0px;
+}
+
+#main-toolbar .btn .caret {
+  margin-bottom: 7px;
+}
+
+
+
+/* Misc */
+
+h3 i {
+  margin-top: 5px;
+  padding-right: 5px;
+}
+
+p:last-child {
+  margin: 0px;
+}
+
+
+.text-center {
+  text-align: center;
+}
+
+.fake_image {
+  background: #eee;
+  text-align: center;
+  line-height: 100%;
+}
+
+.nodisplay {
+  display: none !important;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* Layout */
+#accounts {
+  background: #eee;
+  border-bottom: 1px solid #ccc;
+
+  padding: 10px;
+}
+
+.panes .pane {
+  position: relative;
+
+}
+
+.pane-left input {
+  width: auto;
+}
+
+.pane-threads {
+  background: white;
+  border-right: 1px solid #ccc;
+}
+
+.pane-contacts {
+  background: white;
+  border-right: 1px solid #ccc;
+}
+
+
+/* Accounts Tab */
+
+#accounts .switchTo i {
+  visibility: hidden;
+}
+#accounts .switchTo.active i {
+  visibility: visible;
+}
+
+
+
+
+
+/* Threads */
+
+
+/* Email Quick Compose */
+.EmailComposeQuick_holder {
+
+  padding: 10px;
+  margin: 10px 20px 4px 10px;
+
+  background: white;
+  border: 1px solid #ccc;
+
+  -webkit-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 1px -13px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 1px -13px rgba(0, 0, 0, 0.3)
+
+}
+
+#EmailComposeQuick {
+  margin: 0px;
+  padding: 0px;
+}
+
+.EmailText {
+  width: 100%;
+  width: 500px;
+}
+
+.EmailComposeQuick_holder .address {
+  float: left;
+  padding: 10px;
+  padding-left: 0px;
+  width: auto; /* choose a size here! */
+}
+
+.EmailComposeQuick_holder .address span {
+  font-weight: bold;
+}
+
+.EmailComposeQuick_holder .reply_buttons {
+  float: right;
+  text-align: right;
+  padding: 10px;
+  padding-right: 0px;
+  width: auto; /* choose a size here! */
+}
+
+
+/* Callout box */
+
+.callout {
+    position: relative;
+    margin: 18px 0;
+    padding: 18px 20px;
+    background-color: inherit;
+    /* easy rounded corners for modern browsers */
+}
+.callout .notch {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    margin: 0;
+    border-top: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #eef4f9;
+    padding: 0;
+    width: 0;
+    height: 0;
+    /* ie6 height fix */
+    font-size: 0;
+    line-height: 0;
+     /* ie6 transparent fix */
+    _border-right-color: red;
+    _border-left-color: red;
+    _filter: chroma(color= red);
+}
+
+.callout.info_holder {
+  background: #eee;
+}
+
+.callout.info_holder .notch {
+  left: auto;
+  right: 21.5px;
+  border-bottom-color:#eee;
+}
+
+
+/* Footer */
+
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  padding-bottom: 100px;
+
+  background: #ebebeb;
+  border-top: 1px solid #ccc;
+
+  color: #666;
+}
+
+
+
+.btn-group {
+  /*display: inline-block;*/
+}
+
+
+/* Tiny Callout (above accounts) */
+.tinyCallout {
+  position: absolute;
+  left: 2px;
+  top: -8px;
+  color: white;
+  font-size:9px;
+  line-height:12px;
+  text-align: center;
+}
+
+.tinyCallout .calloutUp
+{
+  height: 0;
+  width: 0;
+  border-bottom: 12px solid #ffffff;
+  border-left: 12px dotted transparent;
+  border-right: 12px dotted transparent;
+  left: 0px;
+  top: 0px;
+  margin-left: 20px;
+  z-index: 10;
+}
+.tinyCallout .calloutUp2
+{
+  position: relative;
+  left: -10px;
+  top: 2px;
+  height: 0;
+  width: 0;
+  border-bottom: 10px solid red;
+  border-left: 10px dotted transparent;
+  border-right: 10px dotted transparent;
+  z-index: 11;
+}
+.tinyCallout .calloutDown
+{
+  height: 0;
+  width: 0;
+  border-top: 4px solid red;
+  border-left: 4px dotted transparent;
+  border-right: 4px dotted transparent;
+  left: 0px;
+  top: 0px;
+  margin-left: 2px;
+  z-index: 11;
+}
+.tinyCallout .divContainerUp
+{
+  background-color: red;
+  border: solid 1px #ffffff;
+  position: relative;
+  top: -1px;
+  z-index: 9;
+  width: 500px;
+  padding: 4px;
+}
+.tinyCallout .divContainerDown
+{
+  background-color: red;
+  position: relative;
+  top: 1px;
+  z-index: 3;
+  padding: 1px;
+  border-radius: 2px;
+  min-width: 10px;
+}
+
+
+
+
+/* Entity Browser/Explorer modal */
+
+#modalExplorer {
+  height: 80%;
+  width: 80%;
+
+  top: 40%;
+  left: 30%;
+
+  overflow: hidden;
+
+  border: 1px solid #CCC;
+
+  -webkit-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 15px 2px -10px rgba(0, 0, 0, 0.3);
+
+}
+
+#modalExplorer .explorer_warning {
+  margin: 10px;
+  padding: 10px;
+  background: #eee;
+  border: 1px solid #EBEBEB;
+}
+
+.modal-backdrop {
+  background: #EBEBEB;
+}
+
+body.modal-open > .container {
+  -webkit-filter: blur(1px);
+  -webkit-transition: -webkit-filter 2s ease-in-out;
+}
+
+
+#modalExplorer #json {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#modalExplorer .ul {
+  list-style-type: none;
+}
+
+
+#modalExplorer #json > li {
+
+}
+
+#modalExplorer #json > li:first-child {
+  margin-top: 10px;
+}
+
+#modalExplorer #json > li:last-child {
+  margin-bottom: 10px;
+}
+
+#modalExplorer li {
+  list-style-type: none;
+}
+
+#modalExplorer ul li {
+  color: #077;
+}
+
+#modalExplorer .toggle {
+  cursor: pointer;
+}
+
+#modalExplorer .key {
+  color: #C00;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#modalExplorer .colon {
+  color: #C00;
+  padding-left: 5px;
+}
+
+#modalExplorer .brace {
+  color: #0A0;
+  font-weight: bold;
+}
+
+#modalExplorer .brace:not(:last-child) {
+  padding-left: 5px;
+}
+
+#modalExplorer .null {
+  color: #9370DB;
+}
+
+
+
+/* Thread Preview (all threads) */
+
+.thread-preview {
+  width: 100%;
+  cursor: pointer;
+}
+
+.thread-preview .card-left {
+  width: 220px;
+  float: left;
+}
+
+.thread-preview .card-right {
+  width: 80px;
+  float: left;
+}
+
+.thread-preview .card-left .image {
+  float: left;
+  width:30px;
+  padding: 5px;
+
+}
+
+.thread-preview .card-left .name_and_subject {
+  float: left;
+  width: 170px;
+}
+
+.thread-preview .card-left .name_and_subject {
+  padding: 5px;
+  padding-left: 0px;
+}
+
+.thread-preview .card-left .name_and_subject .name {
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+}
+
+.thread-preview .card-left .name_and_subject .subject {
+  color: #333;
+  display: inline-block;
+  width: 100%;
+}
+
+
+.thread-preview .card-right .received {
+  width: 75px;
+  padding-right: 5px;
+  padding-top: 5px;
+}
+
+
+.thread-preview .card-right .thread_count {
+  width: 75px;
+  padding-right: 5px;
+  margin-top: 5px;
+  text-align: right;
+}
+
+
+.thread-preview .card-right .favicon {
+  width: 75px;
+  padding-right: 5px;
+  margin-top: 5px;
+  text-align: right;
+}
+
+.thread-preview .card-right .attachments {
+  width: 75px;
+  padding-right: 5px;
+  margin-top: 5px;
+  margin-bottom: -20px;
+  text-align: right;
+  opacity: .75;
+}
+
+.thread-preview .card-bottom {
+  float: left;
+}
+
+.thread-preview .card-bottom .bottom.last_message {
+  display: block;
+  overflow: hidden;
+  width: 260px;
+  max-height:32px;
+
+  color: #9C9C9C;
+  padding: 5px;
+  padding-top: 0px;
+
+  word-wrap: break-word;
+}
+
+.thread-preview .card-bottom .bottom.note {
+  display: block;
+  overflow: hidden;
+  width: 260px;
+  max-height:32px;
+
+  color: green;
+  padding: 5px;
+  padding-top: 0px;
+
+  word-wrap: break-word;
+}
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+
+var tmp_credentials = {
+	base_api_url: "",
+	fullcontact_api_key: "",
+	filepicker_api_key: ""
+};

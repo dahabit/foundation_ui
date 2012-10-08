@@ -1,4 +1,4 @@
-## emailBox  
+## emailbox  
 
 Most recent screenshot: 
 ![screen1](https://dl.dropbox.com/u/6673634/Screenshots/emailbox_screen1.png)  

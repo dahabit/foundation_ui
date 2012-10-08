@@ -1,5 +1,10 @@
 ## emailBox  
 
+Most recent screenshot: 
+![screen1](https://dl.dropbox.com/u/6673634/Screenshots/emailbox_screen1.png)  
+
+### Installing  
+
     mv js/app/creds.js.rename js/app/creds.js
     
 Add credentials to `js/app/creds.js`  

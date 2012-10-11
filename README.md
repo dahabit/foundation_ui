@@ -30,3 +30,4 @@ Drop this inside the `src` directory of a [trigger.io](trigger.io) app. Turn on 
 1. Refactor using models, smarter views, lessons learned from http://addyosmani.github.com/backbone-fundamentals/  
 1. Add Contacts page
 1. Develop App/plugin architecture and loading mechanisms (pre-build, js/css/templates)  
+1. Redesign - maybe http://ace-subido.github.com/css3-microsoft-metro-buttons/buttons.html

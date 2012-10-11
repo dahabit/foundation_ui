@@ -43,7 +43,6 @@
 		console.log(tmp_credentials);
 		var api_url = tmp_credentials.base_api_url + '/';
 
-
 		function tick(name){
 			// Register a tick
 
@@ -80,6 +79,7 @@
 			editor_js.getSession().setMode(new JavaScriptMode());
 			*/
 
+			$('#base_api_url').text(tmp_credentials.base_api_url);
 
 			// Activate Switcher (tabs)
 			for(var i = 1; i <= 10; i++){
@@ -242,13 +242,18 @@
 				//}
 
 				// Add authentication to JSON
-				var data = {
-					auth: {
-							app: 'e765c817-d066-4e5a-a337-2a0b88a9a706', // hardcoded to Nick's relationship with App/Plugin.UI.key
-							user_token: 'e9b12882-4576-4f5d-8880-2965b1f7be22'
-						},
-					data: data_json
-				};
+				// - if asked
+				if($('#auth:checked').length > 0){
+					var data = {
+						auth: {
+								app: 'com.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
+								user_token: 'e9b12882-4576-4f5d-8880-2965b1f7be22'
+							},
+						data: data_json
+					};
+				} else {
+					var data = data_json;
+				}
 
 
 				// Stringify before sending
@@ -425,6 +430,7 @@
 			[<a href="index.html" target="_blank">home</a>]
 			[<a href="https://gist.github.com/6074f1d65a47b00dfd64" target="_blank">sample queries</a>]
 			[<a href="https://rocky-oasis-6327.herokuapp.com/api/clear" target="_blank">clear database</a>]
+			[<span id="base_api_url"></span>]
 		</small>
 	</h2>
 
@@ -440,6 +446,11 @@
 					<option value="api/event">api/event</option>
 					<option value="api/queue">api/queue</option>
 					<option value="api/queue/delete">api/queue/delete</option>
+					<option />
+					<option value="api/login">api/login</option>
+					<option value="api/register">api/register</option>
+					<option value="api/apps">api/apps</option>
+					<option value="api/apps/install">api/apps/install</option>
 					<!--
 					<option value="api/plugin">api/plugin</option>
 					<option value="api/models">api/models</option>
@@ -448,6 +459,13 @@
 				</select>
 
 				<button type="submit" class="btn btn-success">POST</button>
+
+				<br />
+
+				<label class="checkbox">
+					<input id="auth" type="checkbox" name="auth" value="1" checked /> Include Auth
+				</label>
+
 			</form>
 		</div>
 		<div class="span9">

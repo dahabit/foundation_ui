@@ -18,6 +18,11 @@ var App = {
 
 		var currentUrl = window.location.href;
 
+		// Load apps
+		// - including development apps (default?)
+		
+	
+
 		App.router = new App.Router();
 		Backbone.history.start(); // Launches "" router
 
@@ -30,14 +35,15 @@ var App = {
 					return;
 				}
 
-				// Write base
+				App.Credentials.ui_user_token = ui_user_token;
+
+				// Build base
 				App.build_base();
 
 			});
 		} else {
 			ui_user_token = localStorage.getItem('ui_user_token');
 			
-
 			if(!ui_user_token){
 
 				// Popup login modal
@@ -46,7 +52,9 @@ var App = {
 
 			}
 
-			// Write base
+			App.Credentials.ui_user_token = ui_user_token;
+
+			// Build base
 			App.build_base();
 
 		}
@@ -55,54 +63,59 @@ var App = {
 
 	build_base: function(){
 
+		// Load apps
+		Api.loadApps()
+		.then(function(loadedApps){
+			
+			// Firebase init
+			Api.Event.start_listening();
 
-		// Firebase init
-		Api.Event.start_listening();
+			// Basic inbox (start view)
+			App.Plugins.Email.saved_searches.accounts()
 
-		// Basic inbox (start view)
-		App.Plugins.Email.saved_searches.accounts()
+			.then(function(response){
+				// Succeded (no errors)
+				// - not doing any error handling, really
 
-		.then(function(response){
-			// Succeded (no errors)
-			// - not doing any error handling, really
+				console.log('Accounts');
+				console.log(response);
 
-			console.log('Accounts');
-			console.log(response);
+				// Save accounts
+				App.Data.accounts = response.success;
 
-			// Save accounts
-			App.Data.accounts = response.success;
+				if(useForge){
+					// Mobile?
 
-			if(useForge){
-				// Mobile?
+					// Body
+					var page = new App.Views.BodyMobile({
+						accounts: response.success
+					});
+					page.render();
 
-				// Body
-				var page = new App.Views.BodyMobile({
-					accounts: response.success
-				});
-				page.render();
+					// Email inbox init
+					App.Plugins.Email.view.mobile.inbox_init();
 
-				// Email inbox init
-				App.Plugins.Email.view.mobile.inbox_init();
-
-				// UI plugin init
-				//App.Plugins.UI.Mobile.initialize();
+					// UI plugin init
+					//App.Plugins.UI.Mobile.initialize();
 
 
-			} else {
-				// Website
+				} else {
+					// Website
 
-				// Body
-				var page = new App.Views.Body({
-					accounts: response.success
-				});
-				page.render();
+					// Body
+					var page = new App.Views.Body({
+						accounts: response.success
+					});
+					page.render();
 
-				// Email inbox init
-				App.Plugins.Email.view.inbox_init();
+					// Email inbox init
+					App.Plugins.Email.view.inbox_init();
 
-				// UI plugin init
-				App.Plugins.UI.initialize();
-			}
+					// UI plugin init
+					App.Plugins.UI.initialize();
+				}
+
+			});
 
 		});
 

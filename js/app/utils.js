@@ -447,14 +447,78 @@ App.Utils = {
 ////////////////////////////////////
 var Api = {
 
-	ui_user_token: 'e9b12882-4576-4f5d-8880-2965b1f7be22',
-
 	defaults: {
 			cache: false,
 			type: 'POST',
 			data: '',
 			dataType: 'html',
 			contentType: "application/json; charset=utf-8",
+	},
+
+	loadApps: function(){
+		// Already have credentials and whatnot
+
+		var dfd = $.Deferred();
+		
+		Api.query('/api/apps',{
+			data: {},
+			success: function(response){
+
+				try {
+					var json = $.parseJSON(response);
+				} catch (err){
+					alert("Failed parsing JSON");
+					return;
+				}
+
+				// Check the validity
+				if(json.code != 200){
+					// Expecting a 200 code returned
+					console.log('200 not returned');
+					return;
+				}
+
+				var apps = json.data;
+
+				$.each(apps,function(i,app){
+
+					if(app.scripts && app.dev){
+
+						console.log(app);
+
+						// CSS
+						$.each(app.scripts.css,function(i,script){
+							$("head").append("<link>");
+							var css = $("head").children(":last");
+							css.attr({
+								rel:  "stylesheet",
+								type: "text/css",
+								href: "./apps/" + app.id + '/css/' + script
+							});
+						});
+
+						// JS
+						$.each(app.scripts.js,function(i,script){
+							var script_url = "./apps/" + app.id + '/js/' + script;
+							$.getScript(script_url, function(){
+								// finished loading script (or failed)
+							});
+						});
+					}
+
+				});
+
+				// Resolve after loaded scripts
+				dfd.resolve({
+					success: apps
+				});
+
+			}
+		});
+
+		// Return search function
+		return dfd.promise();
+
 	},
 
 	search: function(queryOptions, cacheOptions){
@@ -606,8 +670,8 @@ var Api = {
 		var data = $.extend({},queryOptions.data);
 		queryOptions.data = {
 							auth: {
-									app: 'e765c817-d066-4e5a-a337-2a0b88a9a706',
-									user_token: Api.ui_user_token
+									app: App.Credentials.ui_app_key,
+									user_token: App.Credentials.ui_user_token
 								},
 							data: data
 							};
@@ -654,7 +718,7 @@ var Api = {
 		var data = $.extend({},queryOptions.data);
 		queryOptions.data = {
 							auth: {
-									app: 'e765c817-d066-4e5a-a337-2a0b88a9a706',
+									app: App.Credentials.ui_app_key,
 									//user_token: Api.ui_user_token // just missing this field vs. a normal request
 								},
 							data: data
@@ -738,8 +802,8 @@ var Api = {
 
 
 			console.log('Starting to listen...');
-			console.log('Channel: ' + Api.ui_user_token);
-			Api.Event.listener = new Firebase('http://gamma.firebase.com/nick/event_listeners_v1/' + Api.ui_user_token);
+			console.log('Channel: ' + App.Credentials.ui_user_token);
+			Api.Event.listener = new Firebase('http://gamma.firebase.com/nick/event_listeners_v1/' + App.Credentials.ui_user_token);
 
 			console.log('...listening');
 

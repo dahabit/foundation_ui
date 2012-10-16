@@ -1,0 +1,16 @@
+{
+	"name": "Theme: Blue",
+	"id" : "com.native.theme.blue",
+	"description": "Blue Theme",
+	"events": {},
+	"scripts": {
+		"img" : [
+			],
+		"js" : [
+			"test.js"
+			],
+		"css": [
+			"test.css"
+			]
+	}
+}

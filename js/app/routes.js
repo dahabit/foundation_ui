@@ -2,6 +2,7 @@
 App.Router = Backbone.Router.extend({
 
 	routes: {
+		
 		'' : 'inbox',         // entry point: no hash fragment or #
 		'inbox' : 'inbox',
 		'thread/:thread_id' : 'thread',
@@ -14,8 +15,8 @@ App.Router = Backbone.Router.extend({
 
 		'login' : 'login',
 		'logout' : 'logout'
+		
 	},
-
 
 	showView: function(hash,view){
 		// Used to discard zombies

@@ -435,6 +435,23 @@ App.Utils = {
 
 	exploreModal: function(opts){
 		$('#mainModal').modal(opts)
+	},
+
+	noty: function(opts){
+
+		var defaults = {
+
+			text: "",
+			layout: 'topRight',
+			type: 'alert',
+			timeout: 5000, // delay for closing event. Set false for sticky notifications
+
+		};
+
+		opts = $.extend(defaults,opts);
+
+		return noty(opts);
+
 	}
 
 
@@ -457,7 +474,8 @@ var Api = {
 
 	loadApps: function(){
 		// Already have credentials and whatnot
-
+		// - determine if we should load local values or not
+		
 		var dfd = $.Deferred();
 		
 		Api.query('/api/apps',{
@@ -482,28 +500,83 @@ var Api = {
 
 				$.each(apps,function(i,app){
 
-					if(app.scripts && app.dev){
+					// Load app scripts
+					// - load from dev, if specified in localStorage
 
+					var tmp = localStorage.getItem('app_' + app.id + '_dev');
+					if(tmp == 1){
+						// Load locally, get a new manifest.json
+
+						console.log('DEV');
 						console.log(app);
 
-						// CSS
-						$.each(app.scripts.css,function(i,script){
-							$("head").append("<link>");
-							var css = $("head").children(":last");
-							css.attr({
-								rel:  "stylesheet",
-								type: "text/css",
-								href: "./apps/" + app.id + '/css/' + script
-							});
+						// Load manifest
+						$.ajax({
+							url: './apps/' + app.id + '/manifest.json',
+							cache: false,
+							error: function(err){
+								// Unable to find manifest.json
+								console.log('Unable to find manifest.json locally');
+								console.log(err);
+							},
+							success: function(rManifest){
+
+								// Parse manifest
+
+								// Inject assets
+								console.log('Manifest');
+								console.log(rManifest);
+								console.log(rManifest.id);
+
+								// CSS
+								$.each(rManifest.scripts.css,function(i,script){
+									$("head").append("<link>");
+									var css = $("head").children(":last");
+									css.attr({
+										rel:  "stylesheet",
+										type: "text/css",
+										href: "./apps/" + rManifest.id + '/css/' + script
+									});
+								});
+
+								// JS
+								$.each(rManifest.scripts.js,function(i,script){
+									var script_url = "./apps/" + rManifest.id + '/js/' + script;
+									$.getScript(script_url, function(){
+										// finished loading script (or failed)
+									});
+								});
+
+							}
 						});
 
-						// JS
-						$.each(app.scripts.js,function(i,script){
-							var script_url = "./apps/" + app.id + '/js/' + script;
-							$.getScript(script_url, function(){
-								// finished loading script (or failed)
+					} else {
+
+						console.log('PROD');
+						console.log(app);
+
+						if(app.scripts && app.scripts.length > 0){
+
+							// CSS
+							$.each(app.scripts.css,function(i,script){
+								$("head").append("<link>");
+								var css = $("head").children(":last");
+								css.attr({
+									rel:  "stylesheet",
+									type: "text/css",
+									href: App.Credentials.s3_bucket + App.Credentials.ui_user_token + "/apps/" + app.id + '/css/' + script
+								});
 							});
-						});
+
+							// JS
+							$.each(app.scripts.js,function(i,script){
+								var script_url = App.Credentials.s3_bucket + App.Credentials.ui_user_token + "/apps/" + app.id + '/js/' + script;
+								$.getScript(script_url, function(){
+									// finished loading script (or failed)
+								});
+							});
+						}
+
 					}
 
 				});

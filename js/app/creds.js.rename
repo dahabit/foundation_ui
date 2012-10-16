@@ -3,5 +3,7 @@ var tmp_credentials = {
 	base_api_url: "",
 	ui_app_key: "",
 	fullcontact_api_key: "",
-	filepicker_api_key: ""
+	filepicker_api_key: "",
+
+	s3_bucket: ""
 };

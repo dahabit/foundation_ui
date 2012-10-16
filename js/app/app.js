@@ -20,8 +20,6 @@ var App = {
 
 		// Load apps
 		// - including development apps (default?)
-		
-	
 
 		App.router = new App.Router();
 		Backbone.history.start(); // Launches "" router

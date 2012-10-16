@@ -28,7 +28,10 @@ App.Views.Body = Backbone.View.extend({
 
 		// Accounts
 		'click .accountTab .search': 'search',
-		'click #accounts .switchTo' : 'switch_to'
+		'click #accounts .switchTo' : 'switch_to',
+
+		// Developer
+		'click .dev_apps' : 'apps'
 	},
 
 	initialize: function() {
@@ -127,6 +130,54 @@ App.Views.Body = Backbone.View.extend({
 		// - does updating also
 		App.Plugins.Email.view.inbox_change(conditions);
 
+	},
+
+	apps: function(ev){
+		// List apps
+		
+		Api.query('/api/apps',{
+			data: {},
+			success: function(response){
+
+				try {
+					var json = $.parseJSON(response);
+				} catch (err){
+					alert("Failed parsing JSON");
+					return;
+				}
+
+				// Check the validity
+				if(json.code != 200){
+					// Expecting a 200 code returned
+					console.log('200 not returned');
+					return;
+				}
+
+				var apps = json.data;
+
+				$.each(apps,function(i,app){
+
+					// Load app scripts
+					// - load from dev, if specified in localStorage
+
+					var tmp = localStorage.getItem('app_' + app.id + '_dev');
+					if(tmp == 1){
+						apps[i].dev = true;
+					} else {
+						apps[i].dev = false;
+					}
+
+				});
+
+				var page = new App.Views.DevApps({
+					apps: apps
+				});
+				App.router.showView('apps',page);
+
+			}
+		});
+		
+		return false;
 	},
 
 
@@ -252,6 +303,71 @@ App.Views.Login = Backbone.View.extend({
 
 		// Write HTML
 		$(this.el).html(template());
+
+		return this;
+	}
+});
+
+
+App.Views.DevApps = Backbone.View.extend({
+	
+	el: 'body',
+
+	events: {
+		'click .dev': 'dev_toggle'
+	},
+
+	initialize: function() {
+		_.bindAll(this, 'render');
+	},
+
+	dev_toggle: function(ev){
+		// Toggle dev mode for an app
+		var elem = ev.currentTarget;
+
+		if($(elem).attr('data-dev') == 1){
+			localStorage.setItem('app_' + $(elem).attr('data-id') +'_dev',null);
+		} else {
+			localStorage.setItem('app_' + $(elem).attr('data-id') +'_dev',1);
+		}
+
+		App.Utils.noty({
+			text: "Reload window to see changes",
+			buttons: [
+				{
+					addClass: 'btn btn-primary',
+					text: 'Reload',
+					onClick: function($noty) {
+
+						window.location = window.location.href.split('#')[0];
+
+				  }
+				},
+			]
+		});
+
+		$(elem).parent().html('changed');
+
+		return false;
+	},
+
+	render: function() {
+
+		// Data
+		var data = this.options.apps;
+
+		// Should start the updater for accounts
+		// - have a separate view for Accounts?
+
+		// Remove any previous version
+		$('#modalApps').remove();
+
+		var template = App.Utils.template('t_modal_apps');
+		$('body').append(template(data));
+
+		$('#modalApps').modal();
+
+		//console.log(data);
 
 		return this;
 	}

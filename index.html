@@ -72,7 +72,12 @@
 	<script src="js/libs/lscache.js"></script>
 	<script src="js/libs/jquery.validate.js"></script>
 
-	<script src="https://static.firebase.com/v0/firebase.js"></script>
+	<!-- Noty -->
+	<script src="js/libs/noty/jquery.noty.js"></script>
+	<script src="js/libs/noty/layouts/topRight.js"></script>
+	<script type="text/javascript" src="js/libs/noty/themes/default.js"></script>
+
+	<!--<script src="https://static.firebase.com/v0/firebase.js"></script>-->
 
 	<script src="js/app/app.js"></script>
 	<script src="js/app/utils.js"></script>
@@ -86,8 +91,9 @@
 	<script>
 
 		var com_ui = 'e765c817-d066-4e5a-a337-2a0b88a9a706';
-
+		   
 		$(document).ready(function(){
+
 			App.init();
 		});
 
@@ -188,6 +194,9 @@
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
+								<li>
+									<a class="dev_apps" href="#">Apps</a>
+								</li>
 								<li>
 									<a href="console" target="_blank">API Console</a>
 								</li>
@@ -1123,6 +1132,34 @@
 
 	</script>
 
+	<script id="t_modal_apps" type="text/x-handlebars-template">
+		<div class="modal hide" id="modalApps">
+			<div class="modal-body">
+
+				{{#each this}}
+					<p>
+						<strong>
+							{{name}}
+						</strong>
+
+						 - {{description}}
+						<br />
+						- 
+
+						<span>
+							{{#if dev}}
+								<a href="/" class="dev" data-dev="1" data-id="{{id}}">Dev</a>
+							{{else}}
+								<a href="/" class="dev" data-dev="0" data-id="{{id}}">Not Dev</a>
+							{{/if}}
+						</span>
+					</p>
+					<br />
+				{{/each}}
+
+			</div>
+		</div>
+	</script>
 
 	<script id="t_modal_main" type="text/x-handlebars-template">
 		<div class="modal hide" id="modalMain">
@@ -1139,6 +1176,7 @@
 			
 		</div>
 	</script>
+
 
 	<script id="t_login" type="text/x-handlebars-template">
 

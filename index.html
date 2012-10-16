@@ -1136,26 +1136,81 @@
 		<div class="modal hide" id="modalApps">
 			<div class="modal-body">
 
-				{{#each this}}
-					<p>
-						<strong>
-							{{name}}
-						</strong>
+				<ul id="apps" class="nav nav-tabs">
+					<li class="active">
+						<a href="#appshome" data-toggle="tab">
+							<h3>
+								My Apps
+							</h3>
+						</a>
+					</li>
+					<li class="">
+						<a href="#appsbrowse" data-toggle="tab">
+							<h3>
+								Browse
+							</h3>
+						</a>
+					</li>
+					<li class="">
+						<a href="#appsinstall" data-toggle="tab">
+							<h3>
+								Install
+							</h3>
+						</a>
+					</li>
+				</ul>
 
-						 - {{description}}
-						<br />
-						- 
+				<div id="appsContent" class="tab-content">
+					<div class="tab-pane fade active in" id="appshome">
 
-						<span>
-							{{#if dev}}
-								<a href="/" class="dev" data-dev="1" data-id="{{id}}">Dev</a>
-							{{else}}
-								<a href="/" class="dev" data-dev="0" data-id="{{id}}">Not Dev</a>
-							{{/if}}
-						</span>
-					</p>
-					<br />
-				{{/each}}
+						{{#each this}}
+							<p>
+								<strong>
+									{{name}}
+								</strong>
+
+								 - {{description}}
+								<br />
+								- 
+
+								<span>
+									{{#if dev}}
+										<a href="/" class="dev server off" data-dev="0" data-id="{{id}}">server</a>
+									{{else}}
+										<a href="/" class="dev server on" data-dev="0" data-id="{{id}}">server</a>
+									{{/if}}
+									 
+									{{#if dev}}
+										<a href="/" class="dev local on" data-dev="1" data-id="{{id}}">local</a>
+									{{else}}
+										<a href="/" class="dev local off" data-dev="1" data-id="{{id}}">local</a>
+									{{/if}}
+								</span>
+							</p>
+							<br />
+						{{/each}}
+
+					</div>
+
+					<div class="tab-pane fade" id="appsbrowse">
+
+						<form class="form-inline">
+							<input type="text" class="input-xlarge" placeholder="Search Catalog">
+							<button type="submit" class="btn">Search</button>
+						</form>
+
+					</div>
+
+					<div class="tab-pane fade" id="appsinstall">
+
+						<form class="form-inline">
+							<input type="text" class="input-xlarge" placeholder="GitHub .zip URL">
+							<button type="submit" class="btn">Install</button>
+						</form>
+
+					</div>
+
+				</div>
 
 			</div>
 		</div>

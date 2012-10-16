@@ -1008,6 +1008,22 @@ p:last-child {
 
 
 
+/* Apps modal */
+
+#modalApps {
+  
+}
+
+#modalApps a.dev.off {
+  
+}
+
+#modalApps a.dev.on {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
 
 /* Entity Browser/Explorer modal */
 

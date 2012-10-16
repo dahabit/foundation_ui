@@ -445,6 +445,7 @@ App.Utils = {
 			layout: 'topRight',
 			type: 'alert',
 			timeout: 5000, // delay for closing event. Set false for sticky notifications
+  			closeWith: ['click'], // ['click', 'button', 'hover']
 
 		};
 

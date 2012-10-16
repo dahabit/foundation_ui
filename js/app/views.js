@@ -324,16 +324,50 @@ App.Views.DevApps = Backbone.View.extend({
 	dev_toggle: function(ev){
 		// Toggle dev mode for an app
 		var elem = ev.currentTarget;
+		
+		var dev = 1;
 
 		if($(elem).attr('data-dev') == 1){
-			localStorage.setItem('app_' + $(elem).attr('data-id') +'_dev',null);
+			// Switching to local
+			console.log('switching to local');
+
+			// Test if manifest.json exists locally
+
+			$.ajax({
+				url: './apps/' + $(elem).attr('data-id') + '/manifest.json',
+				cache: false,
+				error: function(err){
+					// Unable to find manifest.json
+
+					App.Utils.noty({
+						text: "Unable to find manifest.json locally",
+						type: "error"
+					});
+
+				},
+				success: function(rManifest){
+
+					// Update
+					localStorage.setItem('app_' + $(elem).attr('data-id') +'_dev',1);
+					$(elem).parent().find('.server').removeClass('on');
+					$(elem).parent().find('.local').addClass('on');
+
+				}
+			});
+
+			
 		} else {
-			localStorage.setItem('app_' + $(elem).attr('data-id') +'_dev',1);
+			// Switching to server
+			console.log('switching to server');
+
+			localStorage.setItem('app_' + $(elem).attr('data-id') +'_dev',null);
+			$(elem).parent().find('.server').addClass('on');
+			$(elem).parent().find('.local').removeClass('on');
 		}
 
 		App.Utils.noty({
 			text: "Reload window to see changes",
-			buttons: [
+			buttons2: [
 				{
 					addClass: 'btn btn-primary',
 					text: 'Reload',
@@ -345,8 +379,6 @@ App.Views.DevApps = Backbone.View.extend({
 				},
 			]
 		});
-
-		$(elem).parent().html('changed');
 
 		return false;
 	},

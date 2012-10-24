@@ -439,13 +439,25 @@ App.Utils = {
 
 	noty: function(opts){
 
+		// Would be fun to use http://soulwire.github.com/Makisu/
+		
 		var defaults = {
 
 			text: "",
 			layout: 'topRight',
 			type: 'alert',
 			timeout: 5000, // delay for closing event. Set false for sticky notifications
-  			closeWith: ['click'], // ['click', 'button', 'hover']
+			closeWith: ['click'], // ['click', 'button', 'hover']
+			animation: {
+				open:{
+					opacity: "toggle"
+				},
+				close:{
+					opacity: "toggle"
+				},
+				easing:'swing',
+				speed:500
+			},
 
 		};
 

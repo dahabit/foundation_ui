@@ -1024,6 +1024,15 @@ p:last-child {
   font-weight: bold;
 }
 
+#appsContent p.app {
+  position: relative;
+  padding:10px 8px;
+}
+
+#appsContent p.app:hover {
+  background: #eee;
+}
+
 
 /* Entity Browser/Explorer modal */
 

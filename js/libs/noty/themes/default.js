@@ -21,6 +21,7 @@
 							$(selector).first().css({borderRadius: '5px 5px 0px 0px'}); break;
 						default: break;
 					}
+					$(selector).css({borderRadius: '0px 0px 0px 0px'});
 				}
 			}
 		},
@@ -39,10 +40,12 @@
 		},
 		style: function() {
 
+			/*
 			this.$bar.css({
 				overflow: 'hidden',
 				background: "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAoCAYAAAAPOoFWAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPZJREFUeNq81tsOgjAMANB2ov7/7ypaN7IlIwi9rGuT8QSc9EIDAsAznxvY4pXPKr05RUE5MEVB+TyWfCEl9LZApYopCmo9C4FKSMtYoI8Bwv79aQJU4l6hXXCZrQbokJEksxHo9KMOgc6w1atHXM8K9DVC7FQnJ0i8iK3QooGgbnyKgMDygBWyYFZoqx4qS27KqLZJjA1D0jK6QJcYEQEiWv9PGkTsbqxQ8oT+ZtZB6AkdsJnQDnMoHXHLGKOgDYuCWmYhEERCI5gaamW0bnHdA3k2ltlIN+2qKRyCND0bhqSYCyTB3CAOc4WusBEIpkeBuPgJMAAX8Hs1NfqHRgAAAABJRU5ErkJggg==') repeat-x scroll left top #fff"
 			});
+			*/
 
 			this.$message.css({
 				fontSize: '13px',
@@ -127,17 +130,25 @@
 				break;
 			}
 
+			// Turn off rounded corners
+			// this.$bar.css({
+			// 	borderRadius: '0px 0px 0px 0px'
+			// });
+
+
 			switch (this.options.type) {
-				case 'alert': case 'notification':
+				case 'alert': 
+				case 'notification':
 					this.$bar.css({backgroundColor: '#FFF', borderColor: '#CCC', color: '#444'}); break;
 				case 'warning':
 					this.$bar.css({backgroundColor: '#FFEAA8', borderColor: '#FFC237', color: '#826200'});
 					this.$buttons.css({borderTop: '1px solid #FFC237'}); break;
 				case 'error':
-					this.$bar.css({backgroundColor: 'red', borderColor: 'darkred', color: '#FFF'});
+					this.$bar.css({backgroundColor: '#D84A38', borderColor: 'darkred', color: '#FFF'});
 					this.$message.css({fontWeight: 'bold'});
 					this.$buttons.css({borderTop: '1px solid darkred'}); break;
 				case 'information':
+				case 'info':
 					this.$bar.css({backgroundColor: '#57B7E2', borderColor: '#0B90C4', color: '#FFF'});
 					this.$buttons.css({borderTop: '1px solid #0B90C4'}); break;
 				case 'success':

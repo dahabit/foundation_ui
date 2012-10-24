@@ -314,7 +314,9 @@ App.Views.DevApps = Backbone.View.extend({
 	el: 'body',
 
 	events: {
-		'click .dev': 'dev_toggle'
+		'click .dev': 'dev_toggle',
+		'click .uninstall' : 'uninstall',
+		'submit #InstallAppByZipUrl' : 'installAppByZipUrl'
 	},
 
 	initialize: function() {
@@ -382,6 +384,112 @@ App.Views.DevApps = Backbone.View.extend({
 
 		return false;
 	},
+
+
+	installAppByZipUrl: function(ev){
+		// Install using zip url
+		var elem = ev.currentTarget;
+
+		// Get the URL
+		var data = form2js('InstallAppByZipUrl');
+
+		$(elem).find('button').addClass('disabled').text('Installing...');
+
+		// Make install request
+		Api.query('/api/apps/install',{
+			data: data,
+			success: function(response){
+
+				$(elem).find('button').addClass('disabled').text('Install');
+
+				try {
+					var json = $.parseJSON(response);
+				} catch (err){
+					alert("Failed parsing JSON");
+					return;
+				}
+
+				// Check the validity
+				if(json.code != 200){
+					// Expecting a 200 code returned
+					console.log('200 not returned');
+
+					App.Utils.noty({
+						text: "Install failed: " + json.msg,
+						type: "error"
+					});
+
+					return;
+				}
+
+				// Clear input
+				$(elem).find('.install_url').val('');
+
+				App.Utils.noty({
+					text: "Installed App. Reload to see changes",
+					type: "success"
+				});
+
+			}
+		});
+
+		return false;
+	},
+
+
+	uninstall: function(ev){
+		// Uninstall an app
+
+		var elem = ev.currentTarget;
+		
+		// confirm uninstall
+		var c = confirm("Really uninstall this App?");
+		if(!c){
+			return false;
+		}
+
+		// Get app to uninstall
+		var app_com = $(elem).attr('data-id');
+
+		// Make uninstall request
+		Api.query('/api/apps/uninstall',{
+			data: {
+				app: app_com
+			},
+			success: function(response){
+
+				try {
+					var json = $.parseJSON(response);
+				} catch (err){
+					alert("Failed parsing JSON");
+					return;
+				}
+
+				// Check the validity
+				if(json.code != 200){
+					// Expecting a 200 code returned
+					console.log('200 not returned');
+
+					App.Utils.noty({
+						text: "Uninstall failed: " + json.msg,
+						type: "error"
+					});
+
+					return;
+				}
+
+				App.Utils.noty({
+					text: "Uninstalled App. Reload to see changes",
+					type: "success"
+				});
+
+			}
+		});
+
+		return false;
+
+	},
+
 
 	render: function() {
 

@@ -198,16 +198,10 @@
 									<a class="dev_apps" href="#">Apps</a>
 								</li>
 								<li>
-									<a href="console" target="_blank">API Console</a>
+									<a href="console.html" target="_blank">API Console</a>
 								</li>
 								<li>
-									<a href="entity" target="_blank">Entity Browser</a>
-								</li>
-								<li>
-									<a href="logs" target="_blank">API / Plugin Logs</a>
-								</li>
-								<li>
-									<a href="https://getemailbox.com/services" target="_blank">Plugin Editing</a>
+									<a href="logs.html" target="_blank">API / Plugin Logs</a>
 								</li>
 
 								<li class="divider"></li>
@@ -1164,30 +1158,37 @@
 					<div class="tab-pane fade active in" id="appshome">
 
 						{{#each this}}
-							<p>
+							<p class="app">
 								<strong>
 									{{name}}
 								</strong>
 
-								 - {{description}}
 								<br />
-								- 
 
-								<span>
+								<span style="color:#666;">
+									{{description}}
+								</span>
+
+								<br />
+
+								<span style="position:absolute;top:10px;right:8px;">
 									{{#if dev}}
-										<a href="/" class="dev server off" data-dev="0" data-id="{{id}}">server</a>
+										<a href="/" class="dev server off" data-dev="0" data-id="{{id}}">prod</a>
 									{{else}}
-										<a href="/" class="dev server on" data-dev="0" data-id="{{id}}">server</a>
+										<a href="/" class="dev server on" data-dev="0" data-id="{{id}}">prod</a>
 									{{/if}}
 									 
 									{{#if dev}}
-										<a href="/" class="dev local on" data-dev="1" data-id="{{id}}">local</a>
+										<a href="/" class="dev local on" data-dev="1" data-id="{{id}}">dev</a>
 									{{else}}
-										<a href="/" class="dev local off" data-dev="1" data-id="{{id}}">local</a>
+										<a href="/" class="dev local off" data-dev="1" data-id="{{id}}">dev</a>
 									{{/if}}
+
+									<br />
+									<a href="/" class="uninstall" data-id="{{id}}">uninstall</a>
 								</span>
+
 							</p>
-							<br />
 						{{/each}}
 
 					</div>
@@ -1199,12 +1200,16 @@
 							<button type="submit" class="btn">Search</button>
 						</form>
 
+						<p>
+							Catalog URL: https://raw.github.com/emailbox/emailbox/master/catalog.json
+						</p>
+
 					</div>
 
 					<div class="tab-pane fade" id="appsinstall">
 
-						<form class="form-inline">
-							<input type="text" class="input-xlarge" placeholder="GitHub .zip URL">
+						<form id="InstallAppByZipUrl" class="form-inline">
+							<input name="url" class="install_url" type="text" class="input-xlarge" placeholder="GitHub .zip URL">
 							<button type="submit" class="btn">Install</button>
 						</form>
 

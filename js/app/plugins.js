@@ -19,7 +19,11 @@ App.Plugins.Email = {
 				//Api.Event.off(update_inbox_id);
 
 				// Refresh the inbox
-				App.Plugins.Email.view.inbox_refresh();
+				window.setTimeout(
+					App.Plugins.Email.view.inbox_refresh,
+					5000
+				);
+
 
 			});
 
@@ -682,6 +686,12 @@ App.Plugins.UI = {
 		$('body').on('focus','.autogrow:not(.growing)',function(){
 			$(this).autogrow().addClass('growing');
 			console.log('loaded autogrow');
+		});
+
+		App.Utils.noty({
+			text: "Loaded UI",
+			type: 'info',
+			timeout: 3000
 		});
 
 	},

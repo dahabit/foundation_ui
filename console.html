@@ -79,6 +79,37 @@
 			editor_js.getSession().setMode(new JavaScriptMode());
 			*/
 
+
+			$.ajax({
+				url: api_url + 'api/search',
+				cache: false,
+				type: 'post',
+				data: JSON.stringify({
+					auth: {
+						app: 'com.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
+						user_token: localStorage.getItem('ui_user_token')
+					},
+					data: {
+						model: 'Test',
+						paths: ['_id'],
+						conditions: {},
+						limit: 1
+					}
+				}),
+				headers: {"Content-Type" : "application/json"},
+				error: function(err){
+					//alert('Error with return data (page failed to display. 404 or 500 is likely)');
+					console.log(err);
+				},
+				success: function(html){
+					var j = JSON.parse(html);
+					if (j.code != 200){
+						alert('Invalid user_token, you need to login again');
+					}
+				}
+			});
+
+
 			$('#base_api_url').text(tmp_credentials.base_api_url);
 
 			// Activate Switcher (tabs)
@@ -247,7 +278,7 @@
 					var data = {
 						auth: {
 								app: 'com.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
-								user_token: 'e9b12882-4576-4f5d-8880-2965b1f7be22'
+								user_token: localStorage.getItem('ui_user_token')
 							},
 						data: data_json
 					};
@@ -450,6 +481,10 @@
 					<option value="api/login">api/login</option>
 					<option value="api/register">api/register</option>
 					<option value="api/apps">api/apps</option>
+
+					<option value="api/app/users">api/app/user</option>
+					<option value="api/app/users">api/app/users</option>
+
 					<option value="api/apps/install">api/apps/install</option>
 					<option value="api/apps/uninstall">api/apps/uninstall</option>
 					<!--

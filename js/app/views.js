@@ -115,7 +115,8 @@ App.Views.Body = Backbone.View.extend({
 		var conditions = {};
 
 		if(address.length > 0){
-			conditions['attributes.accounts.'+App.Utils.MD5(address)] = 1;
+			// conditions['attributes.accounts.'+App.Utils.MD5(address)] = 1;
+			conditions['attributes.accounts'] = address;
 		}
 
 		if(label.length > 0){
@@ -232,6 +233,49 @@ App.Views.BodyMobile = Backbone.View.extend({
 		return this;
 	}
 });
+
+
+App.Views.BodyLogin = Backbone.View.extend({
+	
+	el: 'body',
+
+	events: {
+		'click button' : 'login', // composing new email,
+
+	},
+
+	initialize: function() {
+		_.bindAll(this, 'render');
+
+	},
+
+	login: function(ev){
+		// Start OAuth process
+
+		var p = {
+			app_id : App.Credentials.ui_app_key,
+			callback : [location.protocol, '//', location.host, location.pathname].join('')
+		};
+		var params = $.param(p);
+		
+		window.location = App.Credentials.base_api_url + "/apps/authorize/?" + params;
+
+
+		return false;
+
+	},
+
+	render: function() {
+
+		var template = App.Utils.template('t_body_login');
+
+		// Write HTML
+		$(this.el).html(template());
+
+		return this;
+	}
+});
+
 
 
 App.Views.Login = Backbone.View.extend({
@@ -1072,6 +1116,7 @@ App.Views.Thread = Backbone.View.extend({
 		'click .thread-view .email .details .addresses' : 'minimize',
 		'click .thread-view .actions .btn[btn-action="back"]' : 'back',
 		'click .thread-view .email .options .reply' : 'quick_reply',
+		'click .thread-view .email .options .text_html' : 'text_html',
 		//'click .thread-view .email .options .info' : 'info',
 		'click .thread-view .email .options .info' : 'info_explore', // replaced 'info' with the Explorer
 		'click .thread-view .email .info_holder .explore' : 'info_explore',
@@ -1255,6 +1300,22 @@ App.Views.Thread = Backbone.View.extend({
 	},
 
 
+	text_html: function (ev){
+		// Text/Html
+
+		var elem = ev.currentTarget;
+
+		if($(elem).parents('.email').find('.content').hasClass('show_html')) {
+			$(elem).text('text');
+			$(elem).parents('.email').find('.content').removeClass('show_html');
+		} else {
+			$(elem).text('html');
+			$(elem).parents('.email').find('.content').addClass('show_html');
+		}
+
+	}, 
+
+
 	render: function() {
 
 		// Data
@@ -1267,9 +1328,25 @@ App.Views.Thread = Backbone.View.extend({
 
 		// Shrink/minimize the threads that are not the latest (don't want to have to keep scrolling down)
 		// - todo (v2)
-
+		
 		// Write HTML
 		$(this.el).html(template(data));
+
+		// HTML Email
+		$.each(data.Email,function(i,email){
+			// console.log('email_html_' + email._id);
+			// console.log(email.original.HtmlBody);
+			// $('#email_html_' + email._id).contents().html(email.original.HtmlBody);
+
+			var iFrame = $('#email_html_' + email._id);
+			var iFrameDoc = iFrame[0].contentDocument || iFrame[0].contentWindow.document;
+			iFrameDoc.write(email.original.HtmlBodyOriginal);
+			iFrameDoc.close();
+
+			// Resize
+			iFrame.height(iFrameDoc.body.scrollHeight + 'px');
+
+		});
 
 		// Hide other main-windows
 		//$('.main-window').addClass('nodisplay');

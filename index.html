@@ -29,7 +29,7 @@
 	<link rel="stylesheet/less" type="text/css" href="css/less/bootstrap.less">
 	-->
 
-	<script src="https://cryptic-everglades-7993.herokuapp.com/socket.io/socket.io.js"></script>
+	<script src="http://getemailbox.com:8080/socket.io/socket.io.js"></script>
 
 	<link href="css/bootstrap.css" type="text/css" rel="stylesheet"> <!-- Uncomment below if switching to Less-compiled -->
 
@@ -103,8 +103,36 @@
 	<!-- Templates -->
 
 
-	<!-- Default Home View -->
 
+	<!-- Body Login -->
+	<script id="t_body_login" type="text/x-handlebars-template">
+
+		<div class="container">
+
+			<div style="text-align:center;margin-top:100px;">
+
+				<h1>
+					Emailbox Foundation UI
+				</h1>
+
+				<br />
+				<br />
+
+				<p class="login">
+					<button class="btn btn-info btn-large">Login with Emailbox</button>
+				</p>
+				<p style="color:#666;">
+					(you will be redirected to Gmail to login)
+				</p>
+
+			</div>
+
+		</div>
+
+	</script>
+
+
+	<!-- Default Home View -->
 	<script id="t_body" type="text/x-handlebars-template">
 
 		<div class="container">
@@ -462,6 +490,8 @@
 									<span class="info" title="info"><i class="icon-info-sign"></i></span>
 									&nbsp;
 									<span class="reply" title="reply"><i class="icon-share-alt"></i></span>
+									<br />
+									<span class="text_html" title="text/html">text</span>
 								</div>
 
 								<div class="received" data-datetime="{{common.date}}">
@@ -497,6 +527,8 @@
 								<span class="body">
 									{{display_bodies original.ParsedData}}
 								</span>
+
+								<iframe id="email_html_{{_id}}" class="email_html" src="about:blank"></iframe>
 								
 							</div>
 

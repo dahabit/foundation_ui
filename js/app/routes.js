@@ -4,6 +4,9 @@ App.Router = Backbone.Router.extend({
 	routes: {
 		
 		'' : 'inbox',         // entry point: no hash fragment or #
+
+		'body_login' : 'body_login',
+		
 		'inbox' : 'inbox',
 		'thread/:thread_id' : 'thread',
 		'thread_mobile/:thread_id' : 'thread_mobile',
@@ -30,6 +33,38 @@ App.Router = Backbone.Router.extend({
 	},
 
 
+	body_login: function(){
+		// Redirect through OAuth
+
+		// Unless user_token is already in querystring
+
+		if(typeof App.Credentials.ui_user_token != 'string' || App.Credentials.ui_user_token.length < 1){
+
+			var qs = App.Utils.getUrlVars();
+
+			if(typeof qs.user_token == "string"){
+				// Have a user_token
+				// - save it to localStorage
+
+				localStorage.setItem('ui_user_token',qs.user_token);
+				
+				// Reload page, back to #home
+				window.location = [location.protocol, '//', location.host, location.pathname].join('');
+			} else {
+				// Show login splash screen
+				var page = new App.Views.BodyLogin();
+				App.router.showView('bodylogin',page);
+			}
+
+		} else {
+			// Reload page, back to #home
+			window.location = [location.protocol, '//', location.host, location.pathname].join('');
+			return;
+		} 
+
+	},
+
+
 	login: function(){
 		// Logout, if necessary
 		localStorage.clear();
@@ -44,9 +79,15 @@ App.Router = Backbone.Router.extend({
 
 
 	logout: function(){
-		localStorage.clear();
-		var tmp = window.location.href.split('#')[0];
-		window.location = tmp.split('?')[0];
+		// Logout
+
+		// alert('Logging out');
+
+		// Reset user_token
+		localStorage.setItem('ui_user_token','');
+		
+		window.location = [location.protocol, '//', location.host, location.pathname].join('');
+
 	},
 
 

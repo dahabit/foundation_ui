@@ -325,6 +325,20 @@ table.threads-all {
   display: none;
 }
 
+.thread-view .email .content iframe.email_html {
+  display: none;
+  width: 100%;
+  border: 0px;
+}
+
+.thread-view .email .content.show_html iframe.email_html {
+  display: block;
+}
+
+.thread-view .email .content.show_html .body {
+  display: none;
+}
+
 .thread-view .email .content .ParsedDataShowAll span {
   border: 1px dotted #EAEAEA;
   padding: 3px;
@@ -376,6 +390,11 @@ table.threads-all {
 
   opacity: .4;
 
+}
+
+.thread-view .email .options .text_html {
+  font-size: 9px;
+  cursor: pointer;
 }
 
 .thread-view .email .info_holder {

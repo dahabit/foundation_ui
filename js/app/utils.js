@@ -440,7 +440,7 @@ App.Utils = {
 	noty: function(opts){
 
 		// Would be fun to use http://soulwire.github.com/Makisu/
-		
+
 		var defaults = {
 
 			text: "",
@@ -466,6 +466,37 @@ App.Utils = {
 		return noty(opts);
 
 	}
+
+	// https://github.com/collective/icalendar/blob/master/src/icalendar/parser.py
+	// def q_split(st, sep=','):
+	// 	"""
+	// 	Splits a string on char, taking double (q)uotes into considderation
+	// 	>>> q_split('Max,Moller,"Rasmussen, Max"')
+	// 	['Max', 'Moller', '"Rasmussen, Max"']
+	// 	"""
+	// 	result = []
+	// 	cursor = 0
+	// 	length = len(st)
+	// 	inquote = 0
+	// 	for i in range(length):
+	// 		ch = st[i]
+	// 		if ch == '"':
+	// 			inquote = not inquote
+	// 		if not inquote and ch == sep:
+	// 			result.append(st[cursor:i])
+	// 			cursor = i + 1
+	// 		if i + 1 == length:
+	// 			result.append(st[cursor:])
+	// 	return result
+
+	// def q_join(lst, sep=','):
+	// 	"""
+	// 	Joins a list on sep, quoting strings with QUOTABLE chars
+	// 	>>> s = ['Max', 'Moller', 'Rasmussen, Max']
+	// 	>>> q_join(s)
+	// 	'Max,Moller,"Rasmussen, Max"'
+	// 	"""
+	// 	return sep.join([dQuote(itm) for itm in lst])
 
 
 }

@@ -21,8 +21,41 @@ var App = {
 		// Load apps
 		// - including development apps (default?)
 
+		// init Router
+		// - not sure if this actually launches the "" position...
 		App.router = new App.Router();
 		Backbone.history.start(); // Launches "" router
+
+		var ui_user_token = localStorage.getItem('ui_user_token');
+		App.Credentials.ui_user_token = ui_user_token;
+
+		if(typeof App.Credentials.ui_user_token != 'string' || App.Credentials.ui_user_token.length < 1){
+			App.router.navigate("body_login", true);
+			return;
+		}
+
+		// Validate credentials
+		Api.search({
+			data: {
+				model: 'Test',
+				paths: ['_id'],
+				conditions: {},
+				limit: 1
+			},
+			success: function(res){
+				var res = JSON.parse(res);
+				if(res.code != 200){
+					localStorage.setItem('ui_user_token',null);
+					App.Credentials.ui_user_token = null;
+					App.router.navigate("body_login", true);
+					return;
+				}
+
+				App.build_base();
+			}
+		});
+
+		return;
 
 		// See if we're logged in
 		var ui_user_token = false;

@@ -104,7 +104,11 @@
 				success: function(html){
 					var j = JSON.parse(html);
 					if (j.code != 200){
-						alert('Invalid user_token, you need to login again');
+						if(j.code == 401){
+							alert('Invalid user_token, you need to login again');
+						} else {
+							alert('Problem connecting to emailbox API');
+						}
 					}
 				}
 			});

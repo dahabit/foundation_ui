@@ -753,6 +753,12 @@ var Api = {
 
 	},
 
+	count: function(queryOptions){
+
+		return Api.query('/api/count',queryOptions);
+
+	},
+
 	update: function(queryOptions){
 
 		return Api.query('/api/update',queryOptions);

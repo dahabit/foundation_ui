@@ -86,7 +86,7 @@
 				type: 'post',
 				data: JSON.stringify({
 					auth: {
-						app: 'com.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
+						app: 'pkg.native.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
 						user_token: localStorage.getItem('ui_user_token')
 					},
 					data: {
@@ -281,7 +281,7 @@
 				if($('#auth:checked').length > 0){
 					var data = {
 						auth: {
-								app: 'com.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
+								app: 'pkg.native.ui', // hardcoded to Nick's relationship with App/Plugin.UI.key
 								user_token: localStorage.getItem('ui_user_token')
 							},
 						data: data_json
@@ -475,7 +475,9 @@
 			<form class="well form-inline">
 				<select class="input url">
 					<option value="api/echo">api/echo</option>
+					<option value="api/version">api/version</option>
 					<option value="api/search">api/search</option>
+					<option value="api/count">api/count</option>
 					<option value="api/update">api/update</option>
 					<option value="api/write">api/write</option>
 					<option value="api/event">api/event</option>
